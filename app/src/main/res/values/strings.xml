@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name" translatable="false">Help Me</string>
+    <string name="welcome" translatable="false"> Help Me</string>
+    <string name="voiceAss" translatable="false">Your Personal Voice Assistant</string>
+
+
+    <string name="buttonhelp" translatable="false">Help</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="speech_prompt">Say something&#8230;</string>
+    <string name="speech_not_supported" translatable="false">Sorry! Your device doesn\'t support speech input</string>
+    <string name="tap_on_mic" translatable="false">Tap to Speak</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello">hello</string>
+    <string name="title_activity_current_location" translatable="false">Map</string>
+    <string name="help_text" translatable="false">Say Call to  make call\nSay Save to save the contact\nSay Message to send message\nSay Weather to know your weather\nSAY Time or Date to know current date and time\nSay Set Alarm to set alarm\nSay music to play music\nSay Location to know your location</string>
+
+</resources>
