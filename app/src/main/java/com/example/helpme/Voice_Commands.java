@@ -113,6 +113,11 @@ public class Voice_Commands extends AppCompatActivity {
                     startActivity(save);
                 }  else if (mAnswer.equalsIgnoreCase("stop")) {
                         t1.stop();
+                }
+                else if (mAnswer.equalsIgnoreCase("read")) {
+                    t1.speak("Read message", TextToSpeech.QUEUE_FLUSH, null);
+                    Intent alarm = new Intent(Voice_Commands.this, ReadMessage.class);
+                    startActivity(alarm);
                 }else if (mAnswer.equalsIgnoreCase("set alarm")) {
                     t1.speak("Set alarm", TextToSpeech.QUEUE_FLUSH, null);
                     Intent alarm = new Intent(Voice_Commands.this, Alarm.class);
