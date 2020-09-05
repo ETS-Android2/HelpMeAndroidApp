@@ -1,12 +1,17 @@
-package com.example.helpme;import android.content.ContentProviderOperation;
+package com.example.helpme;
+
+import android.annotation.SuppressLint;
+import android.content.ContentProviderOperation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -21,20 +26,23 @@ import java.util.TimerTask;
 
 public class SaveContact extends AppCompatActivity {
 
-    private static final int REQUEST_SPEECH_RECOGNIZER_NUMBER =400 ;
+    private static final int REQUEST_SPEECH_RECOGNIZER_NUMBER = 400;
     ImageButton saveNumber;
     TextToSpeech t1;
     String saveContactName;
     String saveContactNumber;
+    RelativeLayout saveHelp;
     Button help;
     private static final int REQUEST_SPEECH_RECOGNIZER_SAVE = 300;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_contact);
         saveNumber = findViewById(R.id.imageButtonSaveContact);
         help = findViewById(R.id.buttonHelp);
+        saveHelp = findViewById(R.id.helpSave);
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -76,6 +84,27 @@ public class SaveContact extends AppCompatActivity {
 
             }
         });
+        saveHelp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SaveContact.this);
+                builder.setTitle("Help");
+                String string = getString(R.string.help_text);
+                builder.setMessage(string);
+                final AlertDialog closedialog = builder.create();
+                closedialog.show();
+                t1.speak(string, TextToSpeech.QUEUE_FLUSH, null);
+                final Timer timer2 = new Timer();
+                timer2.schedule(new TimerTask() {
+                    public void run() {
+                        closedialog.dismiss();
+                        timer2.cancel(); //this will cancel the timer of the system
+                    }
+                }, 15000);   // the timer will count 5 seconds....
+
+                return false;
+            }
+        });
 
 
     }
@@ -96,12 +125,12 @@ public class SaveContact extends AppCompatActivity {
 
             }
         }
-        if(requestCode==REQUEST_SPEECH_RECOGNIZER_NUMBER){
+        if (requestCode == REQUEST_SPEECH_RECOGNIZER_NUMBER) {
             List<String> results2 = data.getStringArrayListExtra
                     (RecognizerIntent.EXTRA_RESULTS);
             saveContactNumber = results2.get(0);
-            saveContact(saveContactName,saveContactNumber);
-            t1.speak("Contact saved successfully",TextToSpeech.QUEUE_FLUSH,null);
+            saveContact(saveContactName, saveContactNumber);
+            t1.speak("Contact saved successfully", TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 
@@ -148,5 +177,12 @@ public class SaveContact extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (t1 != null) {
+            t1.shutdown();
+        }
+    }
 
 }

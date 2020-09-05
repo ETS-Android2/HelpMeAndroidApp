@@ -41,7 +41,6 @@ public class Weather extends AppCompatActivity implements LocationListener {
     TextToSpeech t1;
 
 
-
     @Override
     public void onLocationChanged(Location location) {
         try {
@@ -85,7 +84,7 @@ public class Weather extends AppCompatActivity implements LocationListener {
                 Log.i("Visibility", Visibility);
                 desc.setText(description);
                 temperature.setText(temp);
-                t1.speak(city+"Temperature is:"+temp,TextToSpeech.QUEUE_FLUSH,null);
+                t1.speak(city + "Temperature is:" + temp, TextToSpeech.QUEUE_FLUSH, null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -126,7 +125,7 @@ public class Weather extends AppCompatActivity implements LocationListener {
                 String content = "";
                 char ch;
                 while (data != -1) {
-                    ch = (   char) data;
+                    ch = (char) data;
                     content = content + ch;
                     data = isr.read();
 
@@ -159,7 +158,6 @@ public class Weather extends AppCompatActivity implements LocationListener {
         requestPermission();
         isLocationEnabledOrNot();
         getLocation();
-
 
 
     }
@@ -208,5 +206,14 @@ public class Weather extends AppCompatActivity implements LocationListener {
                     .show();
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (t1 != null) {
+            t1.shutdown();
+        }
     }
 }

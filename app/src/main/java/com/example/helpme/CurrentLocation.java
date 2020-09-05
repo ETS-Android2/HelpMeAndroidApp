@@ -67,33 +67,24 @@ public class CurrentLocation extends FragmentActivity implements OnMapReadyCallb
         mMap = googleMap;
 
 
-
     }
 
     @Override
     public void onLocationChanged(Location location) {
         try {
-
             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             String city = addresses.get(0).getAddressLine(0);
-//            city += addresses.get(0).getLocality();
             double longitude = addresses.get(0).getLongitude();
             double latitude = addresses.get(0).getLatitude();
             String state = addresses.get(0).getAdminArea();
-//            city+= addresses.get(0).getCountryName();
             String postalCode = addresses.get(0).getPostalCode();
             String KnownName = addresses.get(0).getFeatureName();
             String countrycode = addresses.get(0).getCountryCode();
-            LatLng latLng=new LatLng(latitude,longitude);
-            mMap.addMarker(new MarkerOptions().position(latLng).title(city));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,1.2f));
-            t1.speak("Location is:"+city,TextToSpeech.QUEUE_FLUSH,null);
-
-
-
-
-
+            LatLng latLng = new LatLng(latitude, longitude);
+            mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").snippet(city));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 1.2f));
+            t1.speak("Current Location is:" + city, TextToSpeech.QUEUE_FLUSH, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,6 +105,7 @@ public class CurrentLocation extends FragmentActivity implements OnMapReadyCallb
     public void onProviderDisabled(String provider) {
 
     }
+
     private void getLocation() {
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -157,5 +149,14 @@ public class CurrentLocation extends FragmentActivity implements OnMapReadyCallb
                     .show();
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (t1 != null) {
+            t1.shutdown();
+        }
     }
 }

@@ -2,13 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/alarmHelp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Call"
-    android:background="@drawable/alarm4">
+    android:background="@drawable/alarm4"
+    tools:context=".Call">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/textViewShowPhone"
             android:layout_width="wrap_content"
@@ -40,10 +43,10 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="26dp"
             android:background="@drawable/custom_button"
             android:fontFamily="sans-serif"
-            android:layout_centerHorizontal="true"
             android:padding="10dp"
             android:text="@string/buttonhelp"
             android:textColor="@color/white"
@@ -59,7 +62,7 @@
             android:text="@string/tap_on_mic"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white"
-            android:textSize="26sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView7datephone"
@@ -72,9 +75,8 @@
             android:textAllCaps="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
-
 
 
     </RelativeLayout>

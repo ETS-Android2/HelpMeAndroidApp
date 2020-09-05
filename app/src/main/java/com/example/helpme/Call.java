@@ -1,5 +1,7 @@
 package com.example.helpme;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -9,9 +11,11 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -25,22 +29,23 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class Call extends AppCompatActivity {
-
     private final int REQUEST_SPEECH_RECOGNIZER_CALL = 3000;
     TextToSpeech t1;
     String phoneNumber;
     String callAnswer = "";
     ImageButton phone;
     Button help;
+    RelativeLayout callHelp;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
         phone = findViewById(R.id.imageButtonSpeakPhone);
         help = findViewById(R.id.buttonHelp);
+        callHelp = findViewById(R.id.callHelp);
         t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -79,6 +84,30 @@ public class Call extends AppCompatActivity {
 
             }
         });
+        callHelp.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(@SuppressLint("ClickableViewAccessibility") View view, MotionEvent motionEvent) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Call.this);
+                builder.setTitle("Help");
+                String string = getString(R.string.help_text);
+                builder.setMessage(string);
+                final AlertDialog closedialog = builder.create();
+                closedialog.show();
+                t1.speak(string, TextToSpeech.QUEUE_FLUSH, null);
+                final Timer timer2 = new Timer();
+                timer2.schedule(new TimerTask() {
+                    public void run() {
+                        closedialog.dismiss();
+                        timer2.cancel(); //this will cancel the timer of the system
+                    }
+                }, 15000);   // the timer will count 5 seconds....
+
+                return false;
+
+            }
+        });
+
 
     }
 
@@ -89,7 +118,7 @@ public class Call extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_LONG).show();
         if (requestCode == REQUEST_SPEECH_RECOGNIZER_CALL) {
-            Toast.makeText(getApplicationContext(), "in speech ", Toast.LENGTH_LONG).show();
+
             if (resultCode == RESULT_OK) {
                 List<String> results = data.getStringArrayListExtra
                         (RecognizerIntent.EXTRA_RESULTS);
@@ -113,25 +142,35 @@ public class Call extends AppCompatActivity {
                             }
 
                         } while (people.moveToNext() && people.getPosition() != 1);
+                        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CALL_PHONE}, 0);
+                            Intent callIntent1 = new Intent(Intent.ACTION_CALL);
+                            callIntent1.setData(Uri.parse("tel:" + phoneNumber));
+                            startActivity(callIntent1);
+                            t1.speak("Making call:", TextToSpeech.QUEUE_FLUSH, null);
+                        } else {
+                            Intent callIntent2 = new Intent(Intent.ACTION_CALL);
+                            callIntent2.setData(Uri.parse("tel:" + phoneNumber));
+                            startActivity(callIntent2);
+                            t1.speak("Making call:", TextToSpeech.QUEUE_FLUSH, null);
+                        }
                     } catch (Exception ex) {
+                        t1.speak("Sorry no such contact:", TextToSpeech.QUEUE_FLUSH, null);
                         Toast.makeText(this, "Sorry no such contact", Toast.LENGTH_SHORT);
                     }
-
-
-
                 }
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:" + phoneNumber));
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CALL_PHONE}, 0);
 
-                } else
-                    startActivity(callIntent);
-                    t1.speak("Making call:",TextToSpeech.QUEUE_FLUSH,null);
+
             }
         }
+    }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (t1 != null) {
+            t1.shutdown();
+        }
     }
 
 

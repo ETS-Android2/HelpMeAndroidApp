@@ -2,18 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/helpSave"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SaveContact"
     android:background="@drawable/savefinal4"
-    >
-
+    tools:context=".SaveContact">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        >
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textViewShowPhone"
@@ -44,13 +41,11 @@
             android:id="@+id/buttonHelp"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-
             android:layout_alignParentBottom="true"
-
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="26dp"
             android:background="@drawable/custom_button"
             android:fontFamily="sans-serif"
-            android:layout_centerHorizontal="true"
             android:padding="10dp"
             android:text="@string/buttonhelp"
             android:textColor="@color/white"
@@ -63,12 +58,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageButtonSaveContact"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp"
             android:text="@string/tap_on_mic"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white"
-            android:textSize="30sp"
-
-            android:layout_marginTop="22dp"
+            android:textSize="18sp"
 
             />
 
@@ -77,15 +71,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/imageButtonSaveContact"
+            android:layout_centerHorizontal="true"
             android:text="Save Contact"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/darktext"
-            android:textSize="35sp"
-            android:layout_centerHorizontal="true"
-            android:textStyle="bold"
-            />
-
-
+            android:textSize="25sp"
+            android:textStyle="bold" />
     </RelativeLayout>
-
 </RelativeLayout>

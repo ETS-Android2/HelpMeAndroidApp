@@ -48,7 +48,7 @@ public class Music extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
         Random random = new Random();
-        pos = random.nextInt(20-1)+1;
+        pos = random.nextInt(20 - 1) + 1;
         bstop = findViewById(R.id.imageButton);
         mtitle = (TextView) findViewById(R.id.textViewTitle);
         artist = (TextView) findViewById(R.id.textViewArtist);
@@ -65,7 +65,7 @@ public class Music extends Activity implements
                 mediaPlayer.stop();
                 mediaPlayer.reset();
                 task.cancel(true);
-                finish();
+
             }
         });
 
@@ -77,15 +77,10 @@ public class Music extends Activity implements
         try {
 
             mediaPlayer.reset();
-
-            //get song
             Song playSong = songList.get(pos);
             mtitle.setText(playSong.getTitle());
             artist.setText(playSong.getArtist());
-
-            //get id
             long currSong = playSong.getID();
-            //set uri
             Uri trackUri = ContentUris.withAppendedId(
                     android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                     currSong);
@@ -196,7 +191,7 @@ public class Music extends Activity implements
         mediaPlayer.reset();
         task.cancel(true);
 
-       return false;
+        return false;
     }
 
     @Override
