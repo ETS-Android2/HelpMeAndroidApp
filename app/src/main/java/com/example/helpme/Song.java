@@ -1,8 +1,6 @@
 package com.example.helpme;
 
-/**
- * Created by Mukul on 25-05-2016.
- */
+
 public class Song {
     private long id;
     private String title;
