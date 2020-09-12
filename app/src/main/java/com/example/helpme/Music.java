@@ -27,9 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by Mukul on 25-05-2016.
- */
+
 public class Music extends Activity implements
         GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
